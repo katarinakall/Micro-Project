@@ -3,6 +3,7 @@ import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.TerminalSize;
 
+import javax.swing.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
@@ -43,30 +44,67 @@ public class MonsterGame {
             }
             while (key == null);
 
-
             switch (key.getKind()) {
                 case ArrowDown:
-                    hero.y = hero.y +1;
+                    hero.y = hero.y + 1;
                     if (hero.y > 29)
                         hero.y = 29;
                     break;
                 case ArrowUp:
-                    hero.y = hero.y -1;
+                    hero.y = hero.y - 1;
                     if (hero.y < 0)
                         hero.y = 0;
                     break;
                 case ArrowLeft:
-                    hero.x = hero.x -1;
+                    hero.x = hero.x - 1;
                     if (hero.x < 0)
-                    hero.x = 0;
+                        hero.x = 0;
                     break;
                 case ArrowRight:
-                    hero.x = hero.x +1;
+                    hero.x = hero.x + 1;
                     if (hero.x > 98)
                         hero.x = 98;
                     break;
-
             }
+
+            if (hero.y >= alien.y)
+                alien.y = alien.y + 1;
+            else
+                if (hero.y <= alien.y)
+                    alien.y = alien.y -1;
+
+            if (hero.x >= alien.x)
+                alien.x = alien.x + 1;
+            else
+                if (hero.x <= alien.x)
+                    alien.x = alien.x - 1;
+
+
+
+
+
+//                switch (key.getKind()) {
+//                    case ArrowDown:
+//                        alien.y = alien.y +1;
+//                        if (alien.y > 29)
+//                            alien.y = 29;
+//                        break;
+//                    case ArrowUp:
+//                        alien.y = alien.y -1;
+//                        if (alien.y < 0)
+//                            alien.y = 0;
+//                        break;
+//                    case ArrowLeft:
+//                        alien.x = alien.x -1;
+//                        if (alien.x < 0)
+//                            alien.x = 0;
+//                        break;
+//                    case ArrowRight:
+//                        alien.x = alien.x +1;
+//                        if (alien.x > 98)
+//                            alien.x = 98;
+//                        break;
+//            }
             System.out.println(key.getCharacter() + " " + key.getKind());
 
             terminal.clearScreen();
@@ -86,7 +124,10 @@ public class MonsterGame {
             terminal.moveCursor(janne.x, janne.y);
             terminal.putCharacter('\u26C4');
 
-
+            if (hero.x == alien.x && hero.y == alien.y) {
+                JOptionPane.showMessageDialog(null, "GAME OVER!");
+                break;
+            }
 
 
         }
