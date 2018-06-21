@@ -14,23 +14,23 @@ public class MonsterGame {
                 System.out, Charset.forName("UTF8"));
         terminal.enterPrivateMode();
 
-        Player hero = new Player(5,5);
+        Player hero = new Player(5, 5);
         terminal.moveCursor(hero.x, hero.y);
         terminal.putCharacter('\u263A');
 
-        Enemy alien = new Enemy(11,16);
+        Enemy alien = new Enemy(11, 16);
         terminal.moveCursor(alien.x, alien.y);
         terminal.putCharacter('\u26C4');
 
-        Enemy ghost = new Enemy(17,25);
+        Enemy ghost = new Enemy(17, 25);
         terminal.moveCursor(ghost.x, ghost.y);
         terminal.putCharacter('\u26C4');
 
-        Enemy monster = new Enemy(3,29);
+        Enemy monster = new Enemy(3, 29);
         terminal.moveCursor(monster.x, monster.y);
         terminal.putCharacter('\u26C4');
 
-        Enemy janne = new Enemy(35,27);
+        Enemy janne = new Enemy(35, 27);
         terminal.moveCursor(janne.x, janne.y);
         terminal.putCharacter('\u26C4');
 
@@ -66,44 +66,26 @@ public class MonsterGame {
                         hero.x = 98;
                     break;
             }
+            if (hero.y == alien.y && hero.x == alien.x) {
+                terminal.clearScreen();
+                terminal.moveCursor(alien.x, alien.y);
+                terminal.putCharacter('\u1F63'); //ledsen gubbe
+                JOptionPane.showMessageDialog(null, "GAME OVER!");
 
-            if (hero.y >= alien.y)
-                alien.y = alien.y + 1;
-            else
-                if (hero.y <= alien.y)
-                    alien.y = alien.y -1;
-
-            if (hero.x >= alien.x)
-                alien.x = alien.x + 1;
-            else
-                if (hero.x <= alien.x)
+                break;
+            } else if (Math.abs(hero.x - alien.x) > Math.abs(hero.y - alien.y)) {
+                if (hero.x - alien.x < 0)
                     alien.x = alien.x - 1;
+                else
+                    alien.x = alien.x + 1;
+            } else if (hero.y - alien.y < 0)
+                alien.y = alien.y - 1;
+            else
+                alien.y = alien.y + 1;
 
 
-
-
-
-//                switch (key.getKind()) {
-//                    case ArrowDown:
-//                        alien.y = alien.y +1;
-//                        if (alien.y > 29)
-//                            alien.y = 29;
-//                        break;
-//                    case ArrowUp:
-//                        alien.y = alien.y -1;
-//                        if (alien.y < 0)
-//                            alien.y = 0;
-//                        break;
-//                    case ArrowLeft:
-//                        alien.x = alien.x -1;
-//                        if (alien.x < 0)
-//                            alien.x = 0;
-//                        break;
-//                    case ArrowRight:
-//                        alien.x = alien.x +1;
-//                        if (alien.x > 98)
-//                            alien.x = 98;
-//                        break;
+//            if (Math.abs(hero.y - alien.y)> Math.abs(hero.x - alien.x))
+//                alien.y = alien.y + 1;
 //            }
             System.out.println(key.getCharacter() + " " + key.getKind());
 
@@ -123,22 +105,15 @@ public class MonsterGame {
 
             terminal.moveCursor(janne.x, janne.y);
             terminal.putCharacter('\u26C4');
-
-            if (hero.x == alien.x && hero.y == alien.y) {
-                JOptionPane.showMessageDialog(null, "GAME OVER!");
-                break;
-            }
-
-
         }
     }
+
     private static void printText(int x, int y, String message, Terminal
             terminal) {
-        for (int i=0;i<message.length();i++)
-        {
+        for (int i = 0; i < message.length(); i++) {
             terminal.moveCursor(x, y);
             terminal.putCharacter(message.charAt(i));
-            x=x+1;
+            x = x + 1;
         }
     }
 
